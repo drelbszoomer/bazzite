@@ -276,6 +276,8 @@ RUN rpm-ostree install \
         # openrazer-daemon \
         # 1password \
         lsb_release && \
+    # DVD Audio Extractor
+    rpm-ostree install https://www.dvdae.com/dvdae/dvdae-8.6.0-0.x86_64.rpm && \
     curl -Lo /usr/bin/installcab https://raw.githubusercontent.com/KyleGospo/steam-proton-mf-wmv/master/installcab.py && \
     chmod +x /usr/bin/installcab && \
     curl -Lo /usr/bin/install-mf-wmv https://github.com/KyleGospo/steam-proton-mf-wmv/blob/master/install-mf-wmv.sh && \
@@ -305,7 +307,7 @@ RUN rm -f /etc/profile.d/toolbox.sh && \
     mkdir -p "/usr/etc/xdg/autostart" && \
     echo "import \"/usr/share/ublue-os/just/81-bazzite-fixes.just\"" >> /usr/share/ublue-os/justfile && \
     echo "import \"/usr/share/ublue-os/just/84-bazzite-virt.just\"" >> /usr/share/ublue-os/justfile && \
-    sed -i 's/stage/none/g' /etc/rpm-ostreed.conf && \
+    sed -i 's/stage/check/g' /etc/rpm-ostreed.conf && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os-akmods.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite-multilib.repo && \
@@ -330,7 +332,6 @@ RUN rm -f /etc/profile.d/toolbox.sh && \
     systemctl enable input-remapper.service && \
     systemctl unmask bazzite-flatpak-manager.service && \
     systemctl enable bazzite-flatpak-manager.service && \
-    systemctl disable rpm-ostreed-automatic.timer && \
     systemctl enable gamescope-workaround.service && \
     systemctl enable incus-workaround.service && \
     systemctl enable bazzite-hardware-setup.service && \
