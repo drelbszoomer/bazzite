@@ -234,8 +234,6 @@ RUN rpm-ostree install \
         i2c-tools \
         udica \
         joycond \
-        ladspa-caps-plugins \
-        ladspa-noise-suppression-for-voice \
         python3-icoextract \
         webapp-manager \
         zsh \
