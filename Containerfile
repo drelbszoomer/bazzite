@@ -287,8 +287,7 @@ RUN rpm-ostree override replace \
         --experimental \
         --from repo=copr:copr.fedorainfracloud.org:ublue-os:staging \
             mutter \
-            mutter-common \
-            gnome-shell && \
+            mutter-common && \
         systemctl enable dconf-update.service && \
     ostree container commit
 
