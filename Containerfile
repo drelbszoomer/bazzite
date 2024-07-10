@@ -265,7 +265,7 @@ RUN rpm-ostree install \
         cdemu-client \
         gcdemu \
         openrazer-daemon \
-        1password \
+        # 1password \
         lsb_release && \
     # DVD Audio Extractor
     rpm-ostree install https://www.dvdae.com/dvdae/dvdae-8.6.0-0.x86_64.rpm && \
