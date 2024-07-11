@@ -21,9 +21,6 @@ ARG IMAGE_BRANCH="${IMAGE_BRANCH:-main}"
 ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-silverblue}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
 
-RUN curl -Lo /etc/pki/rpm-gpg/1password.asc https://downloads.1password.com/linux/keys/1password.asc && \
-    ostree container commit
-
 COPY system_files/desktop/shared system_files/desktop/${BASE_IMAGE_NAME} /
 
 # Update packages that commonly cause build issues
@@ -265,7 +262,6 @@ RUN rpm-ostree install \
         cdemu-client \
         gcdemu \
         openrazer-daemon \
-        # 1password \
         lsb_release && \
     # DVD Audio Extractor
     rpm-ostree install https://www.dvdae.com/dvdae/dvdae-8.6.0-0.x86_64.rpm && \
