@@ -6,7 +6,6 @@ ARG IMAGE_BRANCH="${IMAGE_BRANCH:-main}"
 ARG SOURCE_IMAGE="${SOURCE_IMAGE:-$BASE_IMAGE_NAME-$BASE_IMAGE_FLAVOR}"
 ARG BASE_IMAGE="ghcr.io/ublue-os/${SOURCE_IMAGE}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
-ARG JUPITER_KERNEL_VERSION="${JUPITER_KERNEL_VERSION:-jupiter-20240605.1}"
 ARG SHA_HEAD_SHORT="${SHA_HEAD_SHORT}"
 
 FROM ghcr.io/ublue-os/akmods:${KERNEL_FLAVOR}-${FEDORA_MAJOR_VERSION} AS akmods
@@ -22,139 +21,138 @@ ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-fsync}"
 ARG IMAGE_BRANCH="${IMAGE_BRANCH:-main}"
 ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-silverblue}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
-ARG JUPITER_KERNEL_VERSION="${JUPITER_KERNEL_VERSION:-jupiter-20240605.1}"
 ARG SHA_HEAD_SHORT="${SHA_HEAD_SHORT}"
 
 COPY system_files/desktop/shared system_files/desktop/${BASE_IMAGE_NAME} /
 
-# Update packages that commonly cause build issues
-RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        vulkan-loader \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        alsa-lib \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        gnutls \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        glib2 \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        nspr \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        nss-softokn \
-        nss-softokn-freebl \
-        nss-util \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        atk \
-        at-spi2-atk \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libaom \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        gstreamer1 \
-        gstreamer1-plugins-base \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libdecor \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libtirpc \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libuuid \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libblkid \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libmount \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        cups-libs \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libinput \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libopenmpt \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        llvm-libs \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        zlib-ng-compat \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        fontconfig \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        pciutils-libs \
-        || true && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=updates \
-        libdrm \
-        || true && \
-    rpm-ostree override remove \
-        glibc32 \
-        || true && \
-    /usr/libexec/containerbuild/cleanup.sh && \
-    ostree container commit
+# # Update packages that commonly cause build issues
+# RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         vulkan-loader \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         alsa-lib \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         gnutls \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         glib2 \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         nspr \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         nss-softokn \
+#         nss-softokn-freebl \
+#         nss-util \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         atk \
+#         at-spi2-atk \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libaom \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         gstreamer1 \
+#         gstreamer1-plugins-base \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libdecor \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libtirpc \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libuuid \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libblkid \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libmount \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         cups-libs \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libinput \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libopenmpt \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         llvm-libs \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         zlib-ng-compat \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         fontconfig \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         pciutils-libs \
+#         || true && \
+#     rpm-ostree override replace \
+#     --experimental \
+#     --from repo=updates \
+#         libdrm \
+#         || true && \
+#     rpm-ostree override remove \
+#         glibc32 \
+#         || true && \
+#     /usr/libexec/containerbuild/cleanup.sh && \
+#     ostree container commit
 
 # Setup Copr repos
 RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
     curl -Lo /usr/bin/copr https://raw.githubusercontent.com/ublue-os/COPR-command/main/copr && \
     chmod +x /usr/bin/copr && \
     curl -Lo /etc/yum.repos.d/_copr_kylegospo-bazzite.repo https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite/repo/fedora-"${FEDORA_MAJOR_VERSION}"/kylegospo-bazzite-fedora-"${FEDORA_MAJOR_VERSION}".repo && \
-    curl -Lo /etc/yum.repos.d/_copr_kylegospo-bazzite-multilib.repo https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite-multilib/repo/fedora-"${FEDORA_MAJOR_VERSION}"/kylegospo-bazzite-multilib-fedora-"${FEDORA_MAJOR_VERSION}".repo?arch=x86_64 && \
+    # curl -Lo /etc/yum.repos.d/_copr_kylegospo-bazzite-multilib.repo https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite-multilib/repo/fedora-"${FEDORA_MAJOR_VERSION}"/kylegospo-bazzite-multilib-fedora-"${FEDORA_MAJOR_VERSION}".repo?arch=x86_64 && \
     curl -Lo /etc/yum.repos.d/_copr_ublue-os-staging.repo https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-"${FEDORA_MAJOR_VERSION}"/ublue-os-staging-fedora-"${FEDORA_MAJOR_VERSION}".repo?arch=x86_64 && \
     curl -Lo /etc/yum.repos.d/_copr_kylegospo-latencyflex.repo https://copr.fedorainfracloud.org/coprs/kylegospo/LatencyFleX/repo/fedora-"${FEDORA_MAJOR_VERSION}"/kylegospo-LatencyFleX-fedora-"${FEDORA_MAJOR_VERSION}".repo && \
     curl -Lo /etc/yum.repos.d/_copr_kylegospo-rom-properties.repo https://copr.fedorainfracloud.org/coprs/kylegospo/rom-properties/repo/fedora-"${FEDORA_MAJOR_VERSION}"/kylegospo-rom-properties-fedora-"${FEDORA_MAJOR_VERSION}".repo && \
@@ -217,31 +215,31 @@ RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
 RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
     rpm-ostree override remove \
         mesa-va-drivers-freeworld && \
-    rpm-ostree override replace \
-    --experimental \
-    --from repo=copr:copr.fedorainfracloud.org:kylegospo:bazzite-multilib \
-        mesa-filesystem \
-        mesa-libxatracker \
-        mesa-libglapi \
-        mesa-dri-drivers \
-        mesa-libgbm \
-        mesa-libEGL \
-        mesa-vulkan-drivers \
-        mesa-libGL \
-        pipewire \
-        pipewire-alsa \
-        pipewire-gstreamer \
-        pipewire-jack-audio-connection-kit \
-        pipewire-jack-audio-connection-kit-libs \
-        pipewire-libs \
-        pipewire-pulseaudio \
-        pipewire-utils \
-        pipewire-plugin-libcamera \
-        bluez \
-        bluez-obexd \
-        bluez-cups \
-        bluez-libs && \
-        # xorg-x11-server-Xwayland && \ downgrade?
+    # rpm-ostree override replace \
+    # --experimental \
+    # --from repo=copr:copr.fedorainfracloud.org:kylegospo:bazzite-multilib \
+    #     mesa-filesystem \
+    #     mesa-libxatracker \
+    #     mesa-libglapi \
+    #     mesa-dri-drivers \
+    #     mesa-libgbm \
+    #     mesa-libEGL \
+    #     mesa-vulkan-drivers \
+    #     mesa-libGL \
+    #     pipewire \
+    #     pipewire-alsa \
+    #     pipewire-gstreamer \
+    #     pipewire-jack-audio-connection-kit \
+    #     pipewire-jack-audio-connection-kit-libs \
+    #     pipewire-libs \
+    #     pipewire-pulseaudio \
+    #     pipewire-utils \
+    #     pipewire-plugin-libcamera \
+    #     bluez \
+    #     bluez-obexd \
+    #     bluez-cups \
+    #     bluez-libs && \
+    #     # xorg-x11-server-Xwayland && \ downgrade?
     rpm-ostree install \
         mesa-va-drivers-freeworld \
         mesa-vdpau-drivers-freeworld.x86_64 \
@@ -321,11 +319,11 @@ RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
 
 # Configure GNOME overrides
 RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
-    rpm-ostree override replace \
-        --experimental \
-        --from repo=copr:copr.fedorainfracloud.org:ublue-os:staging \
-            mutter \
-            mutter-common && \
+    # rpm-ostree override replace \
+    #     --experimental \
+    #     --from repo=copr:copr.fedorainfracloud.org:ublue-os:staging \
+    #         mutter \
+    #         mutter-common && \
     rpm-ostree install \
             rom-properties-gtk3 && \
     systemctl enable dconf-update.service && \
@@ -348,7 +346,7 @@ RUN rm -f /etc/profile.d/toolbox.sh && \
     sed -i 's/stage/check/g' /etc/rpm-ostreed.conf && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os-akmods.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.repo && \
-    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite-multilib.repo && \
+    # sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite-multilib.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os-staging.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-latencyflex.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-rom-properties.repo && \
