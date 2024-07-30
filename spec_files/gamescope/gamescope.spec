@@ -6,7 +6,7 @@
 
 Name:           gamescope
 Version:        100.%{gamescope_tag}
-Release:        13.bazzite
+Release:        19.bazzite
 Summary:        Micro-compositor for video games on Wayland
 
 License:        BSD
@@ -15,18 +15,24 @@ URL:            https://github.com/ValveSoftware/gamescope
 # Create stb.pc to satisfy dependency('stb')
 Source0:        stb.pc
 
+Patch0:         0001-cstdint.patch
+
 # https://github.com/ChimeraOS/gamescope
-Patch0:         chimeraos.patch
+Patch1:         chimeraos.patch
 # https://hhd.dev/
-Patch1:         disable-steam-touch-click-atom.patch
+Patch2:         disable-steam-touch-click-atom.patch
+Patch3:         v2-0001-always-send-ctrl-1-2-to-steam-s-wayland-session.patch
 # https://github.com/ValveSoftware/gamescope/pull/1281
-Patch2:         deckhd.patch
+Patch4:         deckhd.patch
 # https://github.com/ValveSoftware/gamescope/issues/1398
-Patch3:         drm-Separate-BOE-and-SDC-OLED-Deck-panel-rates.patch
+Patch5:         drm-Separate-BOE-and-SDC-OLED-Deck-panel-rates.patch
 # https://github.com/ValveSoftware/gamescope/issues/1369
-Patch4:         revert-299bc34.patch
+Patch6:         revert-299bc34.patch
 # https://github.com/ValveSoftware/gamescope/pull/1231
-Patch5:         1231.patch
+Patch7:         1231.patch
+
+# Temporary until newer tag than 3.14.24
+Patch8:         upstream.patch
 
 BuildRequires:  meson >= 0.54.0
 BuildRequires:  ninja-build
@@ -112,7 +118,7 @@ sed -i 's^../thirdparty/SPIRV-Headers/include/spirv/^/usr/include/spirv/^' src/m
 %build
 cd gamescope
 export PKG_CONFIG_PATH=pkgconfig
-%meson -Dpipewire=enabled -Dinput_emulation=disabled -Ddrm_backend=enabled -Drt_cap=enabled -Davif_screenshots=enabled -Dsdl2_backend=enabled
+%meson -Dpipewire=enabled -Dinput_emulation=enabled -Ddrm_backend=enabled -Drt_cap=enabled -Davif_screenshots=enabled -Dsdl2_backend=enabled
 %meson_build
 
 %install
