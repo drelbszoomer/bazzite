@@ -241,8 +241,8 @@ RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
         bluez \
         bluez-obexd \
         bluez-cups \
-        bluez-libs \
-        xorg-x11-server-Xwayland && \
+        bluez-libs && \
+        # xorg-x11-server-Xwayland && \ downgrade?
     rpm-ostree install \
         mesa-va-drivers-freeworld \
         mesa-vdpau-drivers-freeworld.x86_64 \
@@ -388,9 +388,6 @@ ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-fsync}"
 ARG IMAGE_BRANCH="${IMAGE_BRANCH:-main}"
 ARG BASE_IMAGE_NAME="${BASE_IMAGE_NAME:-silverblue}"
 ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
-
-# Copy NVIDIA-specific overrides
-COPY system_files/nvidia/shared system_files/nvidia/${BASE_IMAGE_NAME} /
 
 # Install NVIDIA driver
 
