@@ -106,7 +106,9 @@ RUN --mount=type=cache,dst=/var/cache/rpm-ostree \
     rpm-ostree override remove \
         ublue-os-update-services \
         firefox \
-        firefox-langpacks && \
+        firefox-langpacks \
+        mesa-vulkan-drivers \
+        xorg-x11-drv-nouveau && \
     /usr/libexec/containerbuild/cleanup.sh && \
     ostree container commit
 
