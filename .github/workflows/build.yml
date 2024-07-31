@@ -226,8 +226,8 @@ jobs:
             org.opencontainers.image.description=DrelbsOS is an OCI image that serves as an alternative operating system for desktop computers.
             org.opencontainers.image.version=${{ env.SOURCE_IMAGE_VERSION }}
             ostree.linux=${{ env.KERNEL_VERSION }}
-            # io.artifacthub.package.readme-url=https://bazzite.gg/
-            # io.artifacthub.package.logo-url=https://raw.githubusercontent.com/ublue-os/bazzite/main/repo_content/logo.png
+            io.artifacthub.package.readme-url=https://github.com/drelbszoomer/drelbsos
+            io.artifacthub.package.logo-url=https://raw.githubusercontent.com/drelbszoomer/drelbsos/main/system_files/overrides/usr/share/pixmaps/fedora-logo.png
 
       # Build image using Buildah action
       - name: Build Image
